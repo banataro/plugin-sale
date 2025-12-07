@@ -57,7 +57,57 @@
 
         .header-subtitle { color: var(--text-secondary); font-size: 0.9rem; }
 
-        .main { max-width: 1400px; margin: 0 auto; padding: 2rem 1.5rem; }
+        /* Filter Buttons */
+        .filter-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.5rem 1.5rem 0;
+        }
+
+        .filter-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        .filter-btn:hover {
+            background: var(--bg-card-hover);
+            color: var(--text-primary);
+            border-color: var(--accent-primary);
+        }
+
+        .filter-btn.active {
+            background: var(--accent-primary);
+            color: white;
+            border-color: var(--accent-primary);
+        }
+
+        .result-count {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-top: 1rem;
+        }
+
+        .main { max-width: 1400px; margin: 0 auto; padding: 1.5rem 1.5rem 2rem; }
 
         .deals-grid {
             display: grid;
@@ -205,6 +255,12 @@
             font-weight: 600;
         }
 
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-muted);
+        }
+
         .footer {
             text-align: center;
             padding: 2rem;
@@ -220,6 +276,7 @@
         @media (max-width: 768px) {
             .header h1 { font-size: 1.4rem; }
             .deals-grid { grid-template-columns: 1fr; }
+            .filter-buttons { justify-content: center; }
         }
     </style>
 </head>
@@ -230,6 +287,17 @@
             <p class="header-subtitle">Plugin Boutiqueのお得なセール情報をまとめてチェック</p>
         </div>
     </header>
+
+    <div class="filter-container">
+        <span class="filter-label">セール率で絞り込み:</span>
+        <div class="filter-buttons" id="filterButtons">
+            <button class="filter-btn active" data-filter="all">すべて</button>
+            <button class="filter-btn" data-filter="50">50%OFF以上</button>
+            <button class="filter-btn" data-filter="70">70%OFF以上</button>
+            <button class="filter-btn" data-filter="90">90%OFF以上</button>
+        </div>
+        <p class="result-count" id="resultCount"></p>
+    </div>
 
     <main class="main">
         <div class="deals-grid" id="dealsGrid"></div>
@@ -423,6 +491,7 @@
     "imageUrl": "https://banners.pluginboutique.com/rvexvhqv3varo0ne9y69o05ubdhu"
   }
 ];
+        var currentFilter = 'all';
 
         function parseDiscount(str) {
             if (!str) return 0;
@@ -444,12 +513,30 @@
             return new Date(year, month, day);
         }
 
+        function filterData(minDiscount) {
+            if (minDiscount === 'all') return salesData;
+            var min = parseInt(minDiscount);
+            return salesData.filter(function(deal) {
+                return parseDiscount(deal.discount) >= min;
+            });
+        }
+
         function render() {
             var grid = document.getElementById('dealsGrid');
+            var countEl = document.getElementById('resultCount');
+            var filtered = filterData(currentFilter);
+            
+            countEl.textContent = filtered.length + '件のセール';
+            
+            if (filtered.length === 0) {
+                grid.innerHTML = '<div class="no-results">該当するセールがありません</div>';
+                return;
+            }
+            
             var html = '';
             
-            for (var i = 0; i < salesData.length; i++) {
-                var deal = salesData[i];
+            for (var i = 0; i < filtered.length; i++) {
+                var deal = filtered[i];
                 var discountPercent = parseDiscount(deal.discount);
                 var endDate = parseEndDate(deal.endDate);
                 var now = new Date();
@@ -499,6 +586,22 @@
             
             grid.innerHTML = html;
         }
+
+        // Filter button click handler
+        document.getElementById('filterButtons').addEventListener('click', function(e) {
+            if (e.target.classList.contains('filter-btn')) {
+                // Remove active from all buttons
+                var buttons = document.querySelectorAll('.filter-btn');
+                for (var i = 0; i < buttons.length; i++) {
+                    buttons[i].classList.remove('active');
+                }
+                // Add active to clicked button
+                e.target.classList.add('active');
+                // Update filter and render
+                currentFilter = e.target.getAttribute('data-filter');
+                render();
+            }
+        });
 
         render();
     </script>
