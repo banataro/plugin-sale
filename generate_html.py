@@ -15,6 +15,45 @@ for encoding in encodings:
     except:
         continue
 
+def get_category(name):
+    name_lower = name.lower()
+    if 'comp' in name_lower:
+        return {'icon': '🎚️', 'label': 'コンプ'}
+    elif 'eq' in name_lower or 'equalizer' in name_lower:
+        return {'icon': '🎛️', 'label': 'EQ'}
+    elif 'reverb' in name_lower:
+        return {'icon': '🌊', 'label': 'リバーブ'}
+    elif 'delay' in name_lower:
+        return {'icon': '⏱️', 'label': 'ディレイ'}
+    elif 'synth' in name_lower:
+        return {'icon': '🎹', 'label': 'シンセ'}
+    elif 'drum' in name_lower or 'beat' in name_lower:
+        return {'icon': '🥁', 'label': 'ドラム'}
+    elif 'bass' in name_lower:
+        return {'icon': '🎸', 'label': 'ベース'}
+    elif 'vocal' in name_lower or 'voice' in name_lower:
+        return {'icon': '🎤', 'label': 'ボーカル'}
+    elif 'piano' in name_lower or 'key' in name_lower:
+        return {'icon': '🎹', 'label': 'ピアノ/キー'}
+    elif 'guitar' in name_lower:
+        return {'icon': '🎸', 'label': 'ギター'}
+    elif 'mastering' in name_lower:
+        return {'icon': '💿', 'label': 'マスタリング'}
+    elif 'limiter' in name_lower:
+        return {'icon': '📊', 'label': 'リミッター'}
+    elif 'saturator' in name_lower or 'distortion' in name_lower or 'overdrive' in name_lower:
+        return {'icon': '🔥', 'label': 'サチュレーション'}
+    elif 'chorus' in name_lower or 'flanger' in name_lower or 'phaser' in name_lower:
+        return {'icon': '🌀', 'label': 'モジュレーション'}
+    elif 'bundle' in name_lower:
+        return {'icon': '📦', 'label': 'バンドル'}
+    elif 'channel' in name_lower or 'strip' in name_lower:
+        return {'icon': '🎚️', 'label': 'チャンネルストリップ'}
+    elif 'metering' in name_lower or 'meter' in name_lower or 'analyzer' in name_lower:
+        return {'icon': '📈', 'label': 'メーター'}
+    else:
+        return {'icon': '🎵', 'label': 'エフェクト'}
+
 with open('plugin_data.csv', 'r', encoding=encoding, errors='replace') as f:
     reader = csv.DictReader(f)
     for row in reader:
@@ -35,6 +74,8 @@ with open('plugin_data.csv', 'r', encoding=encoding, errors='replace') as f:
         discount_match = re.search(r'(\d+)%', str(discount))
         discount_percent = int(discount_match.group(1)) if discount_match else 0
         
+        category = get_category(name)
+        
         sales_data.append({
             'name': name,
             'salePrice': sale_price,
@@ -43,7 +84,9 @@ with open('plugin_data.csv', 'r', encoding=encoding, errors='replace') as f:
             'discountPercent': discount_percent,
             'endDate': end_date,
             'productUrl': product_url,
-            'imageUrl': image_url
+            'imageUrl': image_url,
+            'categoryIcon': category['icon'],
+            'categoryLabel': category['label']
         })
 
 sales_json = json.dumps(sales_data, ensure_ascii=False)
@@ -67,7 +110,7 @@ html = '''<!DOCTYPE html>
         
         .header {
             text-align: center;
-            padding: 40px 20px 32px;
+            padding: 40px 20px 24px;
             background: linear-gradient(180deg, #12121a 0%, #0a0a0f 100%);
         }
         
@@ -86,6 +129,133 @@ html = '''<!DOCTYPE html>
             max-width: 900px;
             margin: 0 auto;
             padding: 0 16px 40px;
+        }
+        
+        /* おすすめ枠 */
+        .picks-section {
+            margin-bottom: 32px;
+        }
+        
+        .section-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .picks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 12px;
+        }
+        
+        .pick-card {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border: 1px solid #2a2a4a;
+            border-radius: 12px;
+            padding: 16px;
+            transition: all 0.2s;
+        }
+        
+        .pick-card:hover {
+            border-color: #5b5bf0;
+            transform: translateY(-2px);
+        }
+        
+        .pick-badge {
+            display: inline-block;
+            background: #f59e0b;
+            color: #000;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+        
+        .pick-name {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            line-height: 1.4;
+        }
+        
+        .pick-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+            font-size: 12px;
+        }
+        
+        .pick-category {
+            background: #2a2a3a;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+        
+        .pick-discount {
+            color: #22c55e;
+            font-weight: 700;
+        }
+        
+        .pick-prices {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        
+        .pick-price-sale {
+            font-size: 20px;
+            font-weight: 900;
+            color: #22c55e;
+        }
+        
+        .pick-price-original {
+            font-size: 12px;
+            color: #555;
+            text-decoration: line-through;
+        }
+        
+        .pick-cta {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background: linear-gradient(90deg, #f59e0b, #ef4444);
+            color: #fff;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            transition: all 0.2s;
+        }
+        
+        .pick-cta:hover {
+            opacity: 0.9;
+        }
+        
+        /* 安心情報 */
+        .trust-bar {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            padding: 16px;
+            background: #111118;
+            border-radius: 8px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        
+        .trust-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: #888;
         }
         
         .filters {
@@ -122,19 +292,19 @@ html = '''<!DOCTYPE html>
         .deals-list {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 8px;
         }
         
         .deal-card {
             background: #14141c;
-            border-radius: 12px;
-            padding: 20px;
+            border-radius: 10px;
+            padding: 16px 20px;
             display: grid;
             grid-template-columns: 1fr auto;
             gap: 16px;
             align-items: center;
             transition: all 0.2s;
-            border: 1px solid #1e1e2a;
+            border: 1px solid transparent;
         }
         
         .deal-card:hover {
@@ -144,6 +314,7 @@ html = '''<!DOCTYPE html>
         
         .deal-card-urgent {
             border-left: 3px solid #ef4444;
+            background: linear-gradient(90deg, rgba(239,68,68,0.1) 0%, #14141c 20%);
         }
         
         .deal-info {
@@ -153,22 +324,31 @@ html = '''<!DOCTYPE html>
         .deal-header {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 8px;
+            gap: 8px;
+            margin-bottom: 6px;
             flex-wrap: wrap;
         }
         
+        .deal-category {
+            font-size: 12px;
+            color: #888;
+            background: #1e1e2a;
+            padding: 2px 8px;
+            border-radius: 4px;
+            white-space: nowrap;
+        }
+        
         .deal-name {
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 600;
             color: #fff;
             line-height: 1.4;
         }
         
         .badge {
-            padding: 3px 8px;
+            padding: 2px 6px;
             border-radius: 4px;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 700;
             flex-shrink: 0;
         }
@@ -179,14 +359,20 @@ html = '''<!DOCTYPE html>
         }
         
         .badge-urgent {
-            background: #f59e0b;
-            color: #000;
+            background: #ef4444;
+            color: #fff;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
         }
         
         .deal-meta {
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 12px;
             flex-wrap: wrap;
             font-size: 13px;
         }
@@ -194,33 +380,35 @@ html = '''<!DOCTYPE html>
         .deal-prices {
             display: flex;
             align-items: baseline;
-            gap: 8px;
+            gap: 6px;
         }
         
         .price-sale {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 900;
             color: #22c55e;
         }
         
         .price-original {
-            font-size: 13px;
+            font-size: 12px;
             color: #555;
             text-decoration: line-through;
         }
         
         .deal-savings {
             color: #22c55e;
-            font-weight: 500;
+            font-size: 12px;
         }
         
         .deal-end {
             color: #666;
+            font-size: 12px;
         }
         
         .deal-end-urgent {
             color: #ef4444;
             font-weight: 600;
+            font-size: 12px;
         }
         
         .deal-action {
@@ -229,12 +417,12 @@ html = '''<!DOCTYPE html>
         
         .cta-btn {
             display: inline-block;
-            padding: 12px 24px;
+            padding: 12px 20px;
             background: #5b5bf0;
             color: #fff;
             text-decoration: none;
             border-radius: 8px;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
             transition: all 0.2s;
             white-space: nowrap;
@@ -242,7 +430,14 @@ html = '''<!DOCTYPE html>
         
         .cta-btn:hover {
             background: #4a4ae0;
-            transform: translateY(-1px);
+        }
+        
+        .cta-btn-urgent {
+            background: linear-gradient(90deg, #ef4444, #f59e0b);
+        }
+        
+        .cta-btn-urgent:hover {
+            opacity: 0.9;
         }
         
         .footer {
@@ -265,26 +460,28 @@ html = '''<!DOCTYPE html>
         
         /* スマホ対応 */
         @media (max-width: 640px) {
-            .header { padding: 32px 16px 24px; }
+            .header { padding: 32px 16px 20px; }
             .header h1 { font-size: 20px; }
+            
+            .trust-bar {
+                gap: 16px;
+                padding: 12px;
+            }
+            
+            .trust-item { font-size: 11px; }
+            
+            .picks-grid {
+                grid-template-columns: 1fr;
+            }
             
             .deal-card {
                 grid-template-columns: 1fr;
                 gap: 12px;
-                padding: 16px;
+                padding: 14px;
             }
             
-            .deal-name {
-                font-size: 14px;
-            }
-            
-            .price-sale {
-                font-size: 20px;
-            }
-            
-            .deal-meta {
-                gap: 12px;
-            }
+            .deal-name { font-size: 13px; }
+            .price-sale { font-size: 18px; }
             
             .cta-btn {
                 width: 100%;
@@ -306,6 +503,17 @@ html = '''<!DOCTYPE html>
     </header>
     
     <div class="container">
+        <!-- 安心情報バー -->
+        <div class="trust-bar">
+            <div class="trust-item">✅ 公式ストア直リンク</div>
+            <div class="trust-item">🔒 安全な決済</div>
+            <div class="trust-item">📧 購入後すぐにライセンス届く</div>
+        </div>
+        
+        <!-- おすすめピック -->
+        <div class="picks-section" id="picks-section"></div>
+        
+        <!-- フィルター -->
         <div class="filters">
             <button class="filter-btn active" data-filter="all">すべて</button>
             <button class="filter-btn" data-filter="50">50%OFF以上</button>
@@ -313,6 +521,7 @@ html = '''<!DOCTYPE html>
             <button class="filter-btn" data-filter="90">90%OFF以上</button>
         </div>
         
+        <!-- セール一覧 -->
         <div class="deals-list" id="deals"></div>
     </div>
     
@@ -348,6 +557,39 @@ html = '''<!DOCTYPE html>
         
         salesData.sort((a, b) => parseEndDate(a.endDate) - parseEndDate(b.endDate));
         
+        // おすすめピック: 70%以上OFF + 残り7日以内から最大3件
+        function renderPicks() {
+            const picks = salesData
+                .filter(d => d.discountPercent >= 70 && getDaysRemaining(d.endDate) <= 7)
+                .slice(0, 3);
+            
+            if (picks.length === 0) return;
+            
+            const section = document.getElementById('picks-section');
+            section.innerHTML = `
+                <div class="section-title">🔥 今週のおすすめ</div>
+                <div class="picks-grid">
+                    ${picks.map(deal => {
+                        const days = getDaysRemaining(deal.endDate);
+                        return `
+                            <div class="pick-card">
+                                <span class="pick-badge">残り${days}日 / ${deal.discountPercent}%OFF</span>
+                                <div class="pick-name">${deal.name}</div>
+                                <div class="pick-meta">
+                                    <span class="pick-category">${deal.categoryIcon} ${deal.categoryLabel}</span>
+                                </div>
+                                <div class="pick-prices">
+                                    <span class="pick-price-sale">¥${deal.salePrice.toLocaleString()}</span>
+                                    <span class="pick-price-original">¥${deal.originalPrice.toLocaleString()}</span>
+                                </div>
+                                <a href="${deal.productUrl}" target="_blank" class="pick-cta">🔥 今すぐチェック</a>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+        }
+        
         let currentFilter = 'all';
         
         function renderDeals() {
@@ -376,21 +618,22 @@ html = '''<!DOCTYPE html>
                 card.innerHTML = `
                     <div class="deal-info">
                         <div class="deal-header">
+                            <span class="deal-category">${deal.categoryIcon} ${deal.categoryLabel}</span>
                             <span class="deal-name">${deal.name}</span>
-                            <span class="badge badge-discount">${deal.discountPercent}%OFF</span>
-                            ${isUrgent ? '<span class="badge badge-urgent">まもなく終了</span>' : ''}
                         </div>
                         <div class="deal-meta">
                             <div class="deal-prices">
                                 <span class="price-sale">¥${deal.salePrice.toLocaleString()}</span>
                                 <span class="price-original">¥${deal.originalPrice.toLocaleString()}</span>
                             </div>
+                            <span class="badge badge-discount">${deal.discountPercent}%OFF</span>
+                            ${isUrgent ? '<span class="badge badge-urgent">⚠ まもなく終了</span>' : ''}
                             <span class="deal-savings">¥${deal.savings.toLocaleString()} お得</span>
                             <span class="${endClass}">${endText}</span>
                         </div>
                     </div>
                     <div class="deal-action">
-                        <a href="${deal.productUrl}" target="_blank" class="cta-btn">詳細を見る</a>
+                        <a href="${deal.productUrl}" target="_blank" class="cta-btn${isUrgent ? ' cta-btn-urgent' : ''}">セール価格で購入</a>
                     </div>
                 `;
                 container.appendChild(card);
@@ -406,6 +649,7 @@ html = '''<!DOCTYPE html>
             });
         });
         
+        renderPicks();
         renderDeals();
     </script>
 </body>
