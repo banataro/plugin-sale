@@ -40,40 +40,6 @@
             padding: 0 16px 40px;
         }
         
-        /* 信頼性バー */
-        .trust-section {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            border: 1px solid #2a2a4a;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 24px;
-        }
-        
-        .trust-title {
-            font-size: 13px;
-            font-weight: 700;
-            margin-bottom: 12px;
-            color: #888;
-        }
-        
-        .trust-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 12px;
-        }
-        
-        .trust-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 13px;
-            color: #ccc;
-        }
-        
-        .trust-icon {
-            font-size: 18px;
-        }
-        
         /* おすすめ枠 */
         .picks-section {
             margin-bottom: 32px;
@@ -273,7 +239,6 @@
             align-items: center;
             transition: all 0.2s;
             border: 1px solid transparent;
-            cursor: pointer;
         }
         
         .deal-card:hover {
@@ -486,9 +451,6 @@
             .header { padding: 32px 16px 20px; }
             .header h1 { font-size: 20px; }
             
-            .trust-grid { grid-template-columns: 1fr; gap: 8px; }
-            .trust-item { font-size: 12px; }
-            
             .picks-grid { grid-template-columns: 1fr; }
             
             .deal-card {
@@ -510,54 +472,6 @@
                 font-size: 12px;
             }
         }
-        
-        /* モバイル固定フッター */
-        .mobile-footer {
-            display: none;
-        }
-        
-        @media (max-width: 640px) {
-            .mobile-footer {
-                display: block;
-                position: fixed;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                background: rgba(10, 10, 15, 0.95);
-                backdrop-filter: blur(10px);
-                padding: 12px 16px;
-                border-top: 1px solid #2a2a3a;
-                z-index: 1000;
-            }
-            
-            .mobile-footer-content {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                gap: 12px;
-            }
-            
-            .mobile-footer-text {
-                font-size: 12px;
-                color: #888;
-            }
-            
-            .mobile-footer-text strong {
-                color: #22c55e;
-                font-size: 14px;
-            }
-            
-            .mobile-footer-btn {
-                padding: 12px 20px;
-                background: #5b5bf0;
-                color: #fff;
-                text-decoration: none;
-                border-radius: 8px;
-                font-size: 12px;
-                font-weight: 700;
-                white-space: nowrap;
-            }
-        }
     </style>
 </head>
 <body>
@@ -567,29 +481,6 @@
     </header>
     
     <div class="container">
-        <!-- 信頼性セクション -->
-        <div class="trust-section">
-            <div class="trust-title">🔒 安心してお買い物いただけます</div>
-            <div class="trust-grid">
-                <div class="trust-item">
-                    <span class="trust-icon">✅</span>
-                    <span>公式ストアへ直接リンク</span>
-                </div>
-                <div class="trust-item">
-                    <span class="trust-icon">💳</span>
-                    <span>日本のクレジットカード対応</span>
-                </div>
-                <div class="trust-item">
-                    <span class="trust-icon">📧</span>
-                    <span>購入後すぐにライセンス届く</span>
-                </div>
-                <div class="trust-item">
-                    <span class="trust-icon">↩️</span>
-                    <span>30日間返金保証あり</span>
-                </div>
-            </div>
-        </div>
-        
         <!-- おすすめピック -->
         <div class="picks-section" id="picks-section"></div>
         
@@ -632,17 +523,6 @@
     <footer class="footer">
         <p>データ: <a href="https://www.pluginboutique.com/" target="_blank">Plugin Boutique</a> | 価格は変動する場合があります</p>
     </footer>
-    
-    <!-- モバイル固定フッター -->
-    <div class="mobile-footer" id="mobile-footer" style="display:none;">
-        <div class="mobile-footer-content">
-            <div class="mobile-footer-text">
-                <span id="footer-deal-name"></span><br>
-                <strong id="footer-deal-price"></strong>
-            </div>
-            <a href="#" id="footer-deal-link" class="mobile-footer-btn" target="_blank">購入する</a>
-        </div>
-    </div>
     
     <script>
         const salesData = [{"name": "SSL Native Bus Compressor 2", "salePrice": 3272, "originalPrice": 25661, "savings": 22389, "discountPercent": 87, "endDate": "Ends 05 Jan", "productUrl": "https://www.pluginboutique.com/product/2-Effects/8-Compressor/8651-SSL-Native-Bus-Compressor-2?a_aid=688228cd487ff", "imageUrl": "https://banners.pluginboutique.com/ptcoewpmu647n80vpv8gvuxwl3v3", "categoryIcon": "🎚️", "categoryLabel": "コンプ", "target": "ミキシング向け", "isPopular": true, "isBeginner": false}, {"name": "Trackspacer", "salePrice": 4994, "originalPrice": 10161, "savings": 5167, "discountPercent": 50, "endDate": "Ends 31 Dec", "productUrl": "https://www.pluginboutique.com/product/2-Effects/71-Dynamics-Processor/3259-Trackspacer?a_aid=688228cd487ff", "imageUrl": "https://banners.pluginboutique.com/0hju24yntv1r401g5oalicu9gxgs", "categoryIcon": "🎵", "categoryLabel": "エフェクト", "target": "ミキシング向け", "isPopular": true, "isBeginner": false}, {"name": "Bloom Bass Groove Lite", "salePrice": 3272, "originalPrice": 4994, "savings": 1722, "discountPercent": 34, "endDate": "Ends 11 Jan", "productUrl": "https://www.pluginboutique.com/product/1-Instruments/64-Virtual-Instruments/14167-Bloom-Bass-Groove-Lite?a_aid=688228cd487ff", "imageUrl": "https://banners.pluginboutique.com/u69pt6rcvl03p8hnlfc0918m3xvp", "categoryIcon": "🎸", "categoryLabel": "ベース", "target": "作曲向け", "isPopular": false, "isBeginner": true}, {"name": "Plugin Boutique Serum Presets Bundle", "salePrice": 4994, "originalPrice": 17050, "savings": 12056, "discountPercent": 70, "endDate": "Ends 07 Jan", "productUrl": "https://www.pluginboutique.com/product/1-Instruments/31-Synth-Presets/9747-Plugin-Boutique-Serum-Presets-Bundle?a_aid=688228cd487ff", "imageUrl": "https://banners.pluginboutique.com/zg1zjaudcw4j3mxzdajw6x7hucjr", "categoryIcon": "📦", "categoryLabel": "バンドル", "target": "コスパ重視", "isPopular": true, "isBeginner": true}, {"name": "Melodyne 5 Assistant Limited Time Offer", "salePrice": 12744, "originalPrice": 42711, "savings": 29967, "discountPercent": 70, "endDate": "Ends 30 Dec", "productUrl": "https://www.pluginboutique.com/product/3-Studio-Tools/48-Audio-Editor/7687-Melodyne-5-Assistant-Limited-Time-Offer?a_aid=688228cd487ff", "imageUrl": "https://banners.pluginboutique.com/wvc5hdqib0lgnzhdz42n2r4irbh2", "categoryIcon": "🎤", "categoryLabel": "ピッチ補正", "target": "ボーカルMix向け", "isPopular": true, "isBeginner": false}, {"name": "Melodyne 5 Studio Limited Time Offer", "salePrice": 47189, "originalPrice": 120211, "savings": 73022, "discountPercent": 60, "endDate": "Ends 30 Dec", "productUrl": "https://www.pluginboutique.com/product/3-Studio-Tools/48-Audio-Editor/7684-Melodyne-5-Studio-Limited-Time-Offer?a_aid=688228cd487ff", "imageUrl": "https://banners.pluginboutique.com/e7e8id1gi5gx6yrpp1ibyejxe94c", "categoryIcon": "🎤", "categoryLabel": "ピッチ補正", "target": "ボーカルMix向け", "isPopular": true, "isBeginner": false}, {"name": "Plugin Boutique $69 Holiday 2025 Bundle", "salePrice": 11883, "originalPrice": 313611, "savings": 301728, "discountPercent": 96, "endDate": "Ends 04 Jan", "productUrl": "https://www.pluginboutique.com/product/81-Bundles/97-Various-Category/16137-Plugin-Boutique-69-Holiday-2025-Bundle?a_aid=688228cd487ff", "imageUrl": "https://banners.pluginboutique.com/p0nntwp3r0fkuouzl4igu5mdkbwj", "categoryIcon": "📦", "categoryLabel": "バンドル", "target": "コスパ重視", "isPopular": false, "isBeginner": true}, {"name": "Thenatan Full Bundle", "salePrice": 6717, "originalPrice": 311376, "savings": 304659, "discountPercent": 97, "endDate": "Ends 07 Jan", "productUrl": "https://www.pluginboutique.com/product/81-Bundles/89-Complete-Collection/16253-Thenatan-Full-Bundle?a_aid=688228cd487ff", "imageUrl": "https://banners.pluginboutique.com/enluvkxl2aw3sgca1n1xguwpj7du", "categoryIcon": "📦", "categoryLabel": "バンドル", "target": "コスパ重視", "isPopular": false, "isBeginner": true}, {"name": "ROYAL 2", "salePrice": 1550, "originalPrice": 20494, "savings": 18944, "discountPercent": 92, "endDate": "Ends 04 Jan", "productUrl": "https://www.pluginboutique.com/product/1-Instruments/64-Virtual-Instruments/6257-ROYAL-2?a_aid=688228cd487ff", "imageUrl": "https://banners.pluginboutique.com/jdr947y19gsak0b3b3gu68te4u91", "categoryIcon": "🎵", "categoryLabel": "エフェクト", "target": "ミキシング向け", "isPopular": false, "isBeginner": false}, {"name": "Oxford Inflator", "salePrice": 6544, "originalPrice": 26867, "savings": 20323, "discountPercent": 75, "endDate": "Ends 04 Jan", "productUrl": "https://www.pluginboutique.com/product/2-Effects/9-Limiter/492-Oxford-Inflator?a_aid=688228cd487ff", "imageUrl": "https://banners.pluginboutique.com/stp07ligbgoqbbg86vpturpvodpn", "categoryIcon": "🎵", "categoryLabel": "エフェクト", "target": "ミキシング向け", "isPopular": true, "isBeginner": false}, {"name": "Melodyne 5 Essential", "salePrice": 4306, "originalPrice": 17050, "savings": 12744, "discountPercent": 74, "endDate": "Ends 30 Dec", "productUrl": "https://www.pluginboutique.com/product/3-Studio-Tools/48-Audio-Editor/6446-Melodyne-5-Essential?a_aid=688228cd487ff", "imageUrl": "https://banners.pluginboutique.com/wn2sjcd6bl46rvmes38vpppt1l6o", "categoryIcon": "🎤", "categoryLabel": "ピッチ補正", "target": "ボーカルMix向け", "isPopular": true, "isBeginner": true}, {"name": "Soundbox Instruments Bundle", "salePrice": 13089, "originalPrice": 18772, "savings": 5683, "discountPercent": 30, "endDate": "Ends 04 Jan", "productUrl": "https://www.pluginboutique.com/product/81-Bundles/58-Instrument-Bundles/13347-Soundbox-Instruments-Bundle?a_aid=688228cd487ff", "imageUrl": "https://banners.pluginboutique.com/gmwviv90sijow38uqxsi97qbuedc", "categoryIcon": "📦", "categoryLabel": "バンドル", "target": "コスパ重視", "isPopular": false, "isBeginner": true}, {"name": "The God Particle", "salePrice": 14346, "originalPrice": 20494, "savings": 6148, "discountPercent": 30, "endDate": "Ends 31 Dec", "productUrl": "https://www.pluginboutique.com/product/2-Effects/50-Mastering-/16579-The-God-Particle?a_aid=688228cd487ff", "imageUrl": "https://banners.pluginboutique.com/solubf4ka79stjc8qm36unieae56", "categoryIcon": "🎵", "categoryLabel": "エフェクト", "target": "ミキシング向け", "isPopular": false, "isBeginner": true}, {"name": "Melodyne 5 Assistant Upgrade from Melodyne Essential", "salePrice": 8439, "originalPrice": 25661, "savings": 17222, "discountPercent": 67, "endDate": "Ends 30 Dec", "productUrl": "https://www.pluginboutique.com/product/3-Studio-Tools/48-Audio-Editor/6459-Melodyne-5-Assistant-Upgrade-from-Melodyne-Essential?a_aid=688228cd487ff", "imageUrl": "https://banners.pluginboutique.com/fxztiamyvtrufhdireeu150u94ep", "categoryIcon": "🎤", "categoryLabel": "ピッチ補正", "target": "ボーカルMix向け", "isPopular": true, "isBeginner": true}, {"name": "Plugin Boutique $29 Holiday 2025 Bundle", "salePrice": 4994, "originalPrice": 65098, "savings": 60104, "discountPercent": 92, "endDate": "Ends 04 Jan", "productUrl": "https://www.pluginboutique.com/product/81-Bundles/97-Various-Category/16170-Plugin-Boutique-29-Holiday-2025-Bundle?a_aid=688228cd487ff", "imageUrl": "https://banners.pluginboutique.com/mrr85mgwslae2whm6jmjpcs20b1v", "categoryIcon": "📦", "categoryLabel": "バンドル", "target": "コスパ重視", "isPopular": false, "isBeginner": true}, {"name": "Scaler 3", "salePrice": 13605, "originalPrice": 17050, "savings": 3445, "discountPercent": 20, "endDate": "Ends 31 Dec", "productUrl": "https://www.pluginboutique.com/product/3-Studio-Tools/93-Music-Theory-Tools/14563-Scaler-3?a_aid=688228cd487ff", "imageUrl": "https://banners.pluginboutique.com/nzlzl0j8myro15qmngvz93igrzu0", "categoryIcon": "🎼", "categoryLabel": "コード補助", "target": "作曲向け", "isPopular": false, "isBeginner": true}, {"name": "Bloom Drum Machine", "salePrice": 6717, "originalPrice": 10161, "savings": 3444, "discountPercent": 33, "endDate": "Ends 11 Jan", "productUrl": "https://www.pluginboutique.com/product/1-Instruments/64-Virtual-Instruments/13548-Bloom-Drum-Machine?a_aid=688228cd487ff", "imageUrl": "https://banners.pluginboutique.com/eg4f66lhw56dxm32nzrxrb6ql2ws", "categoryIcon": "🥁", "categoryLabel": "ドラム", "target": "作曲向け", "isPopular": false, "isBeginner": false}, {"name": "Opacity 2: Soundbox Instrument", "salePrice": 4994, "originalPrice": 7406, "savings": 2412, "discountPercent": 32, "endDate": "Ends 05 Jan", "productUrl": "https://www.pluginboutique.com/product/1-Instruments/64-Virtual-Instruments/16560-Opacity-2-Soundbox-Instrument?a_aid=688228cd487ff", "imageUrl": "https://banners.pluginboutique.com/tfssxodvfnh4il399z84h0r6cp0f", "categoryIcon": "🎵", "categoryLabel": "エフェクト", "target": "ミキシング向け", "isPopular": false, "isBeginner": false}, {"name": "VocalSynth 2", "salePrice": 4994, "originalPrice": 34272, "savings": 29278, "discountPercent": 85, "endDate": "Ends 07 Jan", "productUrl": "https://www.pluginboutique.com/product/2-Effects/54-Vocal-Processing/4413-VocalSynth-2?a_aid=688228cd487ff", "imageUrl": "https://banners.pluginboutique.com/ugkewr6hxouxi8r2tsbvmellfbbw", "categoryIcon": "🎹", "categoryLabel": "シンセ", "target": "作曲向け", "isPopular": false, "isBeginner": false}, {"name": "Excite Audio Bundle", "salePrice": 53216, "originalPrice": 109877, "savings": 56661, "discountPercent": 51, "endDate": "Ends 31 Dec", "productUrl": "https://www.pluginboutique.com/product/81-Bundles/89-Complete-Collection/9866-Excite-Audio-Bundle?a_aid=688228cd487ff", "imageUrl": "https://banners.pluginboutique.com/m28koren2sfwdtrm5yx7317w5dse", "categoryIcon": "📦", "categoryLabel": "バンドル", "target": "コスパ重視", "isPopular": false, "isBeginner": true}];
