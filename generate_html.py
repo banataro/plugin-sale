@@ -54,35 +54,36 @@ html = '''<!DOCTYPE html>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DTMプラグインセール情報 | 毎日更新</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
             font-family: 'Noto Sans JP', sans-serif;
-            background: #0d0d12;
+            background: #0a0a0f;
             color: #fff;
             min-height: 100vh;
         }
         
         .header {
             text-align: center;
-            padding: 32px 20px 24px;
+            padding: 40px 20px 32px;
+            background: linear-gradient(180deg, #12121a 0%, #0a0a0f 100%);
         }
         
         .header h1 {
-            font-size: 22px;
+            font-size: 24px;
             font-weight: 700;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
         }
         
         .header p {
-            color: #888;
+            color: #666;
             font-size: 13px;
         }
         
         .container {
-            max-width: 1200px;
+            max-width: 900px;
             margin: 0 auto;
             padding: 0 16px 40px;
         }
@@ -96,19 +97,20 @@ html = '''<!DOCTYPE html>
         }
         
         .filter-btn {
-            padding: 8px 16px;
-            border: 1px solid #333;
-            border-radius: 20px;
+            padding: 10px 20px;
+            border: 1px solid #2a2a3a;
+            border-radius: 25px;
             background: transparent;
             color: #888;
             font-size: 13px;
+            font-weight: 500;
             cursor: pointer;
             transition: all 0.2s;
         }
         
         .filter-btn:hover {
-            border-color: #666;
-            color: #fff;
+            border-color: #5b5bf0;
+            color: #5b5bf0;
         }
         
         .filter-btn.active {
@@ -117,172 +119,190 @@ html = '''<!DOCTYPE html>
             color: #fff;
         }
         
-        /* PC: 4列 */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
-        }
-        
-        /* タブレット: 2列 */
-        @media (max-width: 1024px) {
-            .grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        
-        /* スマホ: 1列 */
-        @media (max-width: 640px) {
-            .grid {
-                grid-template-columns: 1fr;
-            }
-            .header h1 { font-size: 18px; }
-            .filter-btn { padding: 6px 12px; font-size: 12px; }
-        }
-        
-        .card {
-            background: #16161d;
-            border-radius: 12px;
-            overflow: hidden;
-            transition: transform 0.2s, box-shadow 0.2s;
+        .deals-list {
             display: flex;
             flex-direction: column;
+            gap: 12px;
         }
         
-        .card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+        .deal-card {
+            background: #14141c;
+            border-radius: 12px;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 16px;
+            align-items: center;
+            transition: all 0.2s;
+            border: 1px solid #1e1e2a;
         }
         
-        .card-image-wrapper {
-            position: relative;
-            width: 100%;
-            height: 120px;
+        .deal-card:hover {
             background: #1a1a24;
+            border-color: #2a2a3a;
         }
         
-        .card-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        .deal-card-urgent {
+            border-left: 3px solid #ef4444;
         }
         
-        .urgent-badge {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: rgba(239, 68, 68, 0.95);
+        .deal-info {
+            min-width: 0;
+        }
+        
+        .deal-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .deal-name {
+            font-size: 15px;
+            font-weight: 600;
             color: #fff;
-            padding: 4px 8px;
+            line-height: 1.4;
+        }
+        
+        .badge {
+            padding: 3px 8px;
+            border-radius: 4px;
             font-size: 11px;
             font-weight: 700;
-            text-align: center;
+            flex-shrink: 0;
         }
         
-        .card-body {
-            padding: 14px;
-            flex: 1;
+        .badge-discount {
+            background: #dc2626;
+            color: #fff;
+        }
+        
+        .badge-urgent {
+            background: #f59e0b;
+            color: #000;
+        }
+        
+        .deal-meta {
             display: flex;
-            flex-direction: column;
-        }
-        
-        .card-title {
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
             font-size: 13px;
-            font-weight: 500;
-            margin-bottom: 10px;
-            line-height: 1.4;
-            color: #eee;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            min-height: 36px;
         }
         
-        .price-row {
+        .deal-prices {
             display: flex;
             align-items: baseline;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-bottom: 8px;
+            gap: 8px;
         }
         
         .price-sale {
             font-size: 22px;
-            font-weight: 700;
+            font-weight: 900;
             color: #22c55e;
         }
         
         .price-original {
-            font-size: 12px;
-            color: #666;
+            font-size: 13px;
+            color: #555;
             text-decoration: line-through;
         }
         
-        .discount-badge {
-            background: #dc2626;
-            color: #fff;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 11px;
-            font-weight: 700;
-        }
-        
-        .info-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-            font-size: 12px;
-        }
-        
-        .savings {
+        .deal-savings {
             color: #22c55e;
+            font-weight: 500;
         }
         
-        .end-date {
-            color: #888;
+        .deal-end {
+            color: #666;
         }
         
-        .end-date-urgent {
+        .deal-end-urgent {
             color: #ef4444;
             font-weight: 600;
         }
         
+        .deal-action {
+            flex-shrink: 0;
+        }
+        
         .cta-btn {
-            display: block;
-            width: 100%;
-            padding: 12px;
+            display: inline-block;
+            padding: 12px 24px;
             background: #5b5bf0;
             color: #fff;
-            text-align: center;
             text-decoration: none;
             border-radius: 8px;
             font-size: 13px;
-            font-weight: 500;
-            transition: background 0.2s;
-            margin-top: auto;
+            font-weight: 600;
+            transition: all 0.2s;
+            white-space: nowrap;
         }
         
         .cta-btn:hover {
             background: #4a4ae0;
+            transform: translateY(-1px);
         }
         
         .footer {
             text-align: center;
-            padding: 24px;
-            color: #555;
+            padding: 32px 20px;
+            color: #444;
             font-size: 11px;
         }
         
-        .footer a { color: #5b5bf0; text-decoration: none; }
+        .footer a {
+            color: #5b5bf0;
+            text-decoration: none;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #555;
+        }
+        
+        /* スマホ対応 */
+        @media (max-width: 640px) {
+            .header { padding: 32px 16px 24px; }
+            .header h1 { font-size: 20px; }
+            
+            .deal-card {
+                grid-template-columns: 1fr;
+                gap: 12px;
+                padding: 16px;
+            }
+            
+            .deal-name {
+                font-size: 14px;
+            }
+            
+            .price-sale {
+                font-size: 20px;
+            }
+            
+            .deal-meta {
+                gap: 12px;
+            }
+            
+            .cta-btn {
+                width: 100%;
+                text-align: center;
+                padding: 14px;
+            }
+            
+            .filter-btn {
+                padding: 8px 14px;
+                font-size: 12px;
+            }
+        }
     </style>
 </head>
 <body>
     <header class="header">
         <h1>🎹 DTMプラグインセール情報</h1>
-        <p>Plugin Boutique セール情報を毎日自動更新</p>
+        <p>Plugin Boutique のセール情報を毎日自動更新</p>
     </header>
     
     <div class="container">
@@ -293,7 +313,7 @@ html = '''<!DOCTYPE html>
             <button class="filter-btn" data-filter="90">90%OFF以上</button>
         </div>
         
-        <div class="grid" id="deals"></div>
+        <div class="deals-list" id="deals"></div>
     </div>
     
     <footer class="footer">
@@ -338,31 +358,38 @@ html = '''<!DOCTYPE html>
                 ? salesData 
                 : salesData.filter(d => d.discountPercent >= parseInt(currentFilter));
             
+            if (filtered.length === 0) {
+                container.innerHTML = '<div class="empty-state">該当するセールはありません</div>';
+                return;
+            }
+            
             filtered.forEach(deal => {
                 const days = getDaysRemaining(deal.endDate);
                 const isUrgent = days <= 3;
                 
                 const card = document.createElement('div');
-                card.className = 'card';
+                card.className = 'deal-card' + (isUrgent ? ' deal-card-urgent' : '');
                 
-                const endText = isUrgent ? `残り${days}日` : deal.endDate.replace('Ends ', '');
+                const endText = days <= 7 ? `残り${days}日` : deal.endDate.replace('Ends ', '');
+                const endClass = isUrgent ? 'deal-end-urgent' : 'deal-end';
                 
                 card.innerHTML = `
-                    <div class="card-image-wrapper">
-                        ${isUrgent ? '<div class="urgent-badge">⚠ まもなく終了</div>' : ''}
-                        <img src="${deal.imageUrl}" alt="" class="card-image" onerror="this.style.display='none'">
+                    <div class="deal-info">
+                        <div class="deal-header">
+                            <span class="deal-name">${deal.name}</span>
+                            <span class="badge badge-discount">${deal.discountPercent}%OFF</span>
+                            ${isUrgent ? '<span class="badge badge-urgent">まもなく終了</span>' : ''}
+                        </div>
+                        <div class="deal-meta">
+                            <div class="deal-prices">
+                                <span class="price-sale">¥${deal.salePrice.toLocaleString()}</span>
+                                <span class="price-original">¥${deal.originalPrice.toLocaleString()}</span>
+                            </div>
+                            <span class="deal-savings">¥${deal.savings.toLocaleString()} お得</span>
+                            <span class="${endClass}">${endText}</span>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <div class="card-title">${deal.name}</div>
-                        <div class="price-row">
-                            <span class="price-sale">¥${deal.salePrice.toLocaleString()}</span>
-                            <span class="price-original">¥${deal.originalPrice.toLocaleString()}</span>
-                            <span class="discount-badge">${deal.discountPercent}%OFF</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="savings">¥${deal.savings.toLocaleString()} お得</span>
-                            <span class="${isUrgent ? 'end-date-urgent' : 'end-date'}">${endText}</span>
-                        </div>
+                    <div class="deal-action">
                         <a href="${deal.productUrl}" target="_blank" class="cta-btn">詳細を見る</a>
                     </div>
                 `;
