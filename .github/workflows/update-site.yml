@@ -13,7 +13,7 @@ jobs:
       
       - name: Download CSV from Google Drive
         run: |
-          curl -L "https://drive.google.com/uc?export=download&id=12vj3b4kJ2IA_Gsobe3sC5lGHmWLyTK6U" -o plugin_data.csv
+          curl -L "https://drive.google.com/uc?export=download&id=1LT9zzITXDHDpci8a-NJanzg8zG2o261N" -o plugin_data.csv
       
       - name: Setup Python
         uses: actions/setup-python@v5
